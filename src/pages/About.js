@@ -64,12 +64,12 @@ const About = () => {
         </Col>
       </Row>
       <Routes>
-        <Route path='bahnaric' element={<Bahnaric />} />
-        <Route path='model' element={<Model />} />
-        <Route path='data-augmentation' element={<DataAugmentation />} />
-        <Route path='preprocessing' element={<Preprocessing />} />
-        <Route path='references' element={<References />} />
-        <Route path='/*' element={<Navigate to='bahnaric' />} />
+        <Route path='/bahnar/nmt/bahnaric' element={<Bahnaric />} />
+        <Route path='/bahnar/nmt/model' element={<Model />} />
+        <Route path='/bahnar/nmt/data-augmentation' element={<DataAugmentation />} />
+        <Route path='/bahnar/nmt/preprocessing' element={<Preprocessing />} />
+        <Route path='/bahnar/nmt/references' element={<References />} />
+        <Route path='/bahnar/nmt/*' element={<Navigate to='bahnaric' />} />
       </Routes>
     </div>
   );

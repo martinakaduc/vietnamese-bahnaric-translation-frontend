@@ -12,7 +12,7 @@ const Login = (props) => {
             "username": username,
             "password": password
         }
-        axios.post("http://localhost:5000/auth", body).then(res => {
+        axios.post("http://103.176.178.107:10014/:10013/auth", body).then(res => {
             if (res.data == "No user found!") {
                 setUsername("");
                 setPassword("");

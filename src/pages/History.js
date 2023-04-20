@@ -43,7 +43,7 @@ const History = (props) => {
         let body = {
             "username": props.username
         }
-        axios.post("http://localhost:5000/history", body).then(res => {setHistory(res.data);});
+        axios.post("http://103.176.178.107:10014/:10013/history", body).then(res => {setHistory(res.data);});
         setOpen(true);
     }
 

@@ -10,7 +10,7 @@ const Home = (props) => {
     const [output, setOutput] = useState("");
     const [sound, setSound] = useState(null);
     const [modal, setModal] = useState('Combined');
-    const [gender, setGender] = useState('female');   
+    const [gender, setGender] = useState('male');   
     const [region, setRegion] = useState('Binhdinh');
     
     // FILE useStage
@@ -24,7 +24,17 @@ const Home = (props) => {
                 "text": input,
                 "model": modal,
             }
-            axios.post("https://www.ura.hcmut.edu.vn/NMT/api/translate/text", body).then(response => setOutput(response.data.ResultObj.tgt[0]));
+            axios.post("https://www.ura.hcmut.edu.vn/NMT/api/translate/text", body)
+            .then(response => {
+                    const result = response.data.ResultObj;
+                    const {src, tgt} = result;
+                    setOutput(
+                        tgt.map((text, index) =>
+                            text.trim() !== '' ? text : ''
+                        ).join('\n')
+                    );
+                }
+            );
         }, 500);
         return () => clearTimeout(timeOutId);
     }, [input])
@@ -38,16 +48,23 @@ const Home = (props) => {
     const chooseRegion = (event) => {
         setRegion(event.target.value);
     };
+    
+    const outputChangeHandle = e => {
+        setOutput(e.target.value)
+    }
 
     const translationSpeak = event => {
         let body = {
             "text": output,
             "gender": gender,
         }
-        axios.post("https://www.ura.hcmut.edu.vn/tts/speak", body).then(response => setSound(response.data.speech));
-        console.log(body)
-        let snd = new Audio("data:audio/mp3;base64," + sound);
-        snd.play();
+        axios.post("https://www.ura.hcmut.edu.vn/tts/speak", body).then(response => 
+        {
+            setSound(response.data.speech);
+            console.log(body)
+            let snd = new Audio("data:audio/wav;base64," + response.data.speech);
+            snd.play();
+        });
     }
 
     const translationSave = () => {
@@ -60,7 +77,7 @@ const Home = (props) => {
             "input": input,
             "output": output
         }
-        axios.post("http://localhost:5000/saveHistory", body).then(response => alert("Translation has been saved!"));
+        axios.post("http://103.176.178.107:10014/:10013/saveHistory", body).then(response => alert("Translation has been saved!"));
     }
     
     // FILE CONVERT FUNCION
@@ -166,6 +183,7 @@ const Home = (props) => {
                                 multiline
                                 rows={12}
                                 value={output}
+                                onChange={outputChangeHandle}
                             />
                             
                         </Grid>
