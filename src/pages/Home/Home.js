@@ -5,6 +5,7 @@ import { Box, FormControl, InputLabel, Select, MenuItem, TextField, Grid, Button
 import VolumeUpRoundedIcon from '@mui/icons-material/VolumeUpRounded';
 import Tesseract from 'tesseract.js';
 
+
 const Home = (props) => {
     const [input, setInput] = useState("");
     const [output, setOutput] = useState("");
@@ -53,17 +54,39 @@ const Home = (props) => {
         setOutput(e.target.value)
     }
 
-    const translationSpeak = event => {
+    const translationSpeak = async event => {
         let body = {
             "text": output,
             "gender": gender,
         }
-        axios.post("https://www.ura.hcmut.edu.vn/tts/speak", body).then(response => 
-        {
-            setSound(response.data.speech);
-            console.log(body)
-            let snd = new Audio("data:audio/wav;base64," + response.data.speech);
-            snd.play();
+        const response = await axios.post("http://localhost:8080/speak/vi_ba", body);
+        let urls = JSON.parse(response.data);
+        urls = urls["urls"]
+        console.log("Hello this is ", urls)
+        console.log(typeof(urls))
+        async function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms))
+        }
+        urls.forEach(async url => {
+            console.log("Hello")
+            console.log('Do you see me?')
+            let success = false;
+            while (!success) {
+                try {
+                    const audioResponse = await axios.get(url, { responseType: 'arraybuffer' });
+                    success = true;
+                    const audioBlob = new Blob([audioResponse.data], { type: 'audio/mpeg' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    let snd = new Audio(audioUrl);
+                    snd.play();
+                    await new Promise(resolve => snd.addEventListener('ended', resolve));
+                } catch (error) {
+                    if (error.response && error.response.status === 404) {
+                        console.log(`Audio file not found at ${url}. Waiting for 2 seconds before retrying...`);
+                        await sleep(7000);
+                    }
+                }
+            }
         });
     }
 
