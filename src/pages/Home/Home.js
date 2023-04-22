@@ -92,7 +92,7 @@ const Home = (props) => {
         cache = await caches.open("audio-cache")
         // console.log(await cache.match(cacheKey))
         const response = await axios.post(
-            "http://localhost:8080/speak/vi_ba",
+            "https://www.ura.hcmut.edu.vn/tts/vi_ba",
             body
             );
         let urls = JSON.parse(response.data);
@@ -141,7 +141,7 @@ const Home = (props) => {
         i += 1
         }
         const delete_request = await axios.delete(
-          "http://localhost:8080/speak/vi_ba"
+          "https://www.ura.hcmut.edu.vn/tts/vi_ba"
         );
     }
   };
