@@ -69,80 +69,100 @@ const Home = (props) => {
       gender: gender,
     };
     async function sleep(ms) {
-        return new Promise((resolve) => setTimeout(resolve, ms));
+      return new Promise((resolve) => setTimeout(resolve, ms));
     }
-    
+
     // Open or create a cache for your audio files
     let cache = await caches.open("audio-cache");
-    
+
     // Create a cache key based on the request body
     const cacheKey = JSON.stringify(body);
-    
+
     // Check if the concatenated audio file is already in the cache
     const cachedAudioResponse = await cache.match(cacheKey);
     if (cachedAudioResponse) {
-        // If it's in the cache, get the Blob and play it
-        const cachedAudioBlob = await cachedAudioResponse.blob();
-        let snd = new Audio(URL.createObjectURL(cachedAudioBlob));
-        snd.play();
-        await new Promise((resolve) => snd.addEventListener("ended", resolve));
+      // If it's in the cache, get the Blob and play it
+      const cachedAudioBlob = await cachedAudioResponse.blob();
+      let snd = new Audio(URL.createObjectURL(cachedAudioBlob));
+      snd.play();
+      await new Promise((resolve) => snd.addEventListener("ended", resolve));
     } else {
-        // If it's not in the cache, fetch the individual audio files and concatenate them into a single mp3 file
+      // If it's not in the cache, fetch the individual audio files and concatenate them into a single mp3 file
         console.log("Refreshed cache: ", await caches.delete("audio-cache"))
         cache = await caches.open("audio-cache")
-        // console.log(await cache.match(cacheKey))
-        const response = await axios.post(
-            "https://www.ura.hcmut.edu.vn/tts/vi_ba",
-            body
+      // console.log(await cache.match(cacheKey))
+      const response = await axios.post(
+        "https://www.ura.hcmut.edu.vn/tts/vi_ba",
+        body
+      );
+      let urls = JSON.parse(response.data);
+      urls = urls["urls"];
+      if (urls == 0) return;
+
+      let i = 0;
+      for (const url of urls) {
+        let success = false;
+        while (!success) {
+          try {
+            const audioResponse = await axios.get(url, {
+              responseType: "arraybuffer",
+            });
+            success = true;
+            const audioBlob = new Blob([audioResponse.data], {
+              type: "audio/mpeg",
+            });
+            const audioUrl = URL.createObjectURL(audioBlob);
+            let snd = new Audio(audioUrl);
+            snd.play();
+            await new Promise((resolve) =>
+              snd.addEventListener("ended", resolve)
             );
-        let urls = JSON.parse(response.data);
-        urls = urls["urls"];
-        if (urls == 0) return
-        
-        let i = 0
-        for (const url of urls) {
-            let success = false;
-            while (!success) {
-                try {
-                    const audioResponse = await axios.get(url, {
-                    responseType: "arraybuffer",
-                });
-                success = true;
-                const audioBlob = new Blob([audioResponse.data], {
+            if (i > 0) {
+              console.log("Browser is caching");
+              const prevResponse = await cache.match(cacheKey);
+              const prevBuffer = await prevResponse.arrayBuffer();
+              const currentBuffer = await audioBlob.arrayBuffer();
+              const combinedBuffer = new Uint8Array(
+                prevBuffer.byteLength + currentBuffer.byteLength
+              );
+              combinedBuffer.set(new Uint8Array(prevBuffer), 0);
+              combinedBuffer.set(
+                new Uint8Array(currentBuffer),
+                prevBuffer.byteLength
+              );
+              const combinedBlob = new Blob([combinedBuffer], {
                 type: "audio/mpeg",
-                });
-                const audioUrl = URL.createObjectURL(audioBlob);
-                let snd = new Audio(audioUrl);
-                snd.play();
-                await new Promise((resolve) =>
-                snd.addEventListener("ended", resolve)
-                );
-                if (i > 0){
-                    console.log("Browser is caching")
-                    const prevResponse = await cache.match(cacheKey)
-                    const prevBuffer = await prevResponse.arrayBuffer()
-                    const currentBuffer = await audioBlob.arrayBuffer()
-                    const combinedBuffer = new Uint8Array(prevBuffer.byteLength + currentBuffer.byteLength);
-                    combinedBuffer.set(new Uint8Array(prevBuffer), 0)
-                    combinedBuffer.set(new Uint8Array(currentBuffer), prevBuffer.byteLength)
-                    const combinedBlob = new Blob([combinedBuffer], {
-                        type: "audio/mpeg",
-                    });
-                    cache.put(cacheKey, new Response(combinedBlob))
-                } else { 
-                    cache.put(cacheKey, new Response(audioBlob))
-                }
-            } catch (error) {
-                if (error.response && error.response.status === 404) {
-                    await sleep(7000);
-                }
+              });
+              cache.put(
+                cacheKey,
+                new Response(combinedBlob, {
+                  headers: {
+                    "Cache-Control": "public, max-age=300",
+                  },
+                })
+              );
+            } else {
+              cache.put(
+                cacheKey,
+                new Response(audioBlob, {
+                  headers: {
+                    "Cache-Control": "public, max-age=300",
+                  },
+                })
+              );
             }
+          } catch (error) {
+            if (error.response && error.response.status === 404) {
+              await sleep(2000);
+            }
+          }
         }
-        i += 1
-        }
-        const delete_request = await axios.delete(
+        i += 1;
+      }
+      const delete_request = await axios.delete(
           "https://www.ura.hcmut.edu.vn/tts/vi_ba"
-        );
+        // "http://localhost:8080/speak/vi_ba"
+      );
     }
   };
 
