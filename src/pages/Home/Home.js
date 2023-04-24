@@ -68,7 +68,7 @@ const Home = (props) => {
       text: output,
       gender: gender,
     };
-    async function sleep(ms) {
+    function sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
@@ -88,14 +88,15 @@ const Home = (props) => {
       await new Promise((resolve) => snd.addEventListener("ended", resolve));
     } else {
       // If it's not in the cache, fetch the individual audio files and concatenate them into a single mp3 file
-        console.log("Refreshed cache: ", await caches.delete("audio-cache"))
-        cache = await caches.open("audio-cache")
+        console.log("Refreshed cache: ", await caches.delete("audio-cache"));
+        cache = await caches.open("audio-cache");
       // console.log(await cache.match(cacheKey))
       const response = await axios.post(
-        "https://www.ura.hcmut.edu.vn/tts/vi_ba",
-        body
-      );
-      let urls = JSON.parse(response.data);
+            "https://www.ura.hcmut.edu.vn/tts/speak_v2",
+            body
+          );
+        
+      let urls = response.data;
       urls = urls["urls"];
       if (urls == 0) return;
 
@@ -152,16 +153,14 @@ const Home = (props) => {
               );
             }
           } catch (error) {
-            if (error.response && error.response.status === 404) {
               await sleep(2000);
-            }
           }
         }
         i += 1;
       }
-      const delete_request = await axios.delete(
-          "https://www.ura.hcmut.edu.vn/tts/vi_ba"
-        // "http://localhost:8080/speak/vi_ba"
+      const delete_request = await axios.post(
+          "https://www.ura.hcmut.edu.vn/tts/delete_v2",
+          response.data
       );
     }
   };
