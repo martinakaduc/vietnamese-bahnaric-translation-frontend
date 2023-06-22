@@ -26,7 +26,7 @@ const Home = (props) => {
   // FILE useStage
   const [img, setImg] = useState("");
   const [fileName, setFileName] = useState("");
-  const [isLoad, setIsLoad] = useState(false);
+  const [isLoad, setIsLoad] = useState(-1);
 
   useEffect(() => {
     const timeOutId = setTimeout(() => {
@@ -186,11 +186,17 @@ const Home = (props) => {
   };
 
   const convertFile = () => {
-    setIsLoad(true);
-    Tesseract.recognize(img, "vie", { logger: (m) => console.log(m) }).then(
+    setIsLoad(0);
+    Tesseract.recognize(img, "vie", 
+      { logger: (m) => {
+              console.log(m);
+              setIsLoad(m.progress);
+          }
+      }
+    ).then(
       ({ data: { text } }) => {
         setInput(text);
-        setIsLoad(false);
+        setIsLoad(-1);
       }
     );
     setImg("");
@@ -313,6 +319,7 @@ const Home = (props) => {
               <input
                 type="file"
                 id="selectFile"
+                accept="image/*"
                 onChange={(e) => {
                   setImg(URL.createObjectURL(e.target.files[0]));
                   setFileName(e.target.files[0].name);
@@ -331,9 +338,9 @@ const Home = (props) => {
                   Chuyển đổi
                 </Button>
               )}
-              {isLoad && (
+              {isLoad >= 0 && (
                 <p className="mt-5" variant="outlined">
-                  Đang chuyển đổi...
+                  Đang chuyển đổi {(isLoad*100).toFixed(0)}% ...
                 </p>
               )}
               {/* FILE */}
