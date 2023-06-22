@@ -23,8 +23,8 @@ const History = (props) => {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell sx={{fontWeight: '900'}} align="center">Input</TableCell>
-                        <TableCell sx={{fontWeight: '900'}} align="center">Output</TableCell>
+                        <TableCell sx={{fontWeight: '900'}} align="center"><h3>Tiếng Việt</h3></TableCell>
+                        <TableCell sx={{fontWeight: '900'}} align="center"><h3>Tiếng Bana</h3></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -43,14 +43,14 @@ const History = (props) => {
         let body = {
             "username": props.username
         }
-        axios.post("http://103.176.178.107:10014/:10013/history", body).then(res => {setHistory(res.data);});
+        axios.post("https://www.ura.hcmut.edu.vn/bahnar/nmt/api/history", body).then(res => {setHistory(res.data);});
         setOpen(true);
     }
 
     return(
         <Box className="container mt-4">
-            <h3>Welcome to Vietnamese-Bahnaric translator, {props.username}</h3>
-            <Button onClick={handleOnClick}>Display history</Button>
+            <h3>Xin chào, {props.username}</h3>
+            <Button onClick={handleOnClick}>Hiển thị lịch sử</Button>
             {open && renderHistoryTable()}
         </Box>
     );

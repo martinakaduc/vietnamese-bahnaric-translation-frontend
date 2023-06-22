@@ -21,7 +21,7 @@ const Home = (props) => {
   const [sound, setSound] = useState(null);
   const [modal, setModal] = useState("Combined");
   const [gender, setGender] = useState("male");
-  const [region, setRegion] = useState("Binhdinh");
+  const [region, setRegion] = useState("binhdinh");
 
   // FILE useStage
   const [img, setImg] = useState("");
@@ -176,7 +176,7 @@ const Home = (props) => {
       output: output,
     };
     axios
-      .post("http://103.176.178.107:10014/:10013/saveHistory", body)
+      .post("https://www.ura.hcmut.edu.vn/bahnar/nmt/api/saveHistory", body)
       .then((response) => alert("Translation has been saved!"));
   };
 
@@ -203,8 +203,8 @@ const Home = (props) => {
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <h3>
-            Welcome to Vietnamese-Bahnaric translator,{" "}
-            {!props.username ? "Guest" : props.username}
+            Xin chào,{" "}
+            {!props.username ? "Khách" : props.username}
           </h3>
         </Grid>
         <Grid item xs={12}>
@@ -212,9 +212,9 @@ const Home = (props) => {
             <Grid item xs={4}>
               <FormControl variant="outlined" sx={{ width: "100%" }}>
                 <InputLabel id="demo-simple-select-standard-label">
-                  Modal
+                  Mô hình
                 </InputLabel>
-                <Select value={modal} onChange={chooseModal} label="Modal">
+                <Select value={modal} onChange={chooseModal} label="Model">
                   <MenuItem value={"Combined"}>Combined</MenuItem>
                   <MenuItem value={"Transformer"}>Transformer</MenuItem>
                   <MenuItem value={"PhoBERT-fused NMT"}>
@@ -233,18 +233,18 @@ const Home = (props) => {
             <Grid item xs={4}>
               <FormControl variant="outlined" sx={{ width: "100%" }}>
                 <InputLabel id="demo-simple-select-standard-label">
-                  Speech
+                  Giọng
                 </InputLabel>
-                <Select value={gender} onChange={chooseGender} label="Gender">
-                  <MenuItem value={"male"}>Male</MenuItem>
-                  <MenuItem value={"female"}>Female</MenuItem>
+                <Select value={gender} onChange={chooseGender} label="Speech">
+                  <MenuItem value={"male"}>Nam</MenuItem>
+                  <MenuItem value={"female"}>Nữ</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
             <Grid item xs={4}>
               <FormControl variant="outlined" sx={{ width: "100%" }}>
                 <InputLabel id="demo-simple-select-standard-label">
-                  Region
+                  Vùng
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-standard-label"
@@ -253,9 +253,9 @@ const Home = (props) => {
                   onChange={chooseRegion}
                   label="Region"
                 >
-                  <MenuItem value={"Binhdinh"}>Binh Dinh</MenuItem>
-                  <MenuItem value={"Kontum"}>Kon tum</MenuItem>
-                  <MenuItem value={"Gialai"}>Gia lai</MenuItem>
+                  <MenuItem value={"binhdinh"}>Bình Định</MenuItem>
+                  <MenuItem value={"kontum"}>Kon Tum</MenuItem>
+                  <MenuItem value={"gialai"}>Gia Lai</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -265,7 +265,7 @@ const Home = (props) => {
           <Grid container spacing={2}>
             <Grid item xs={5}>
               <TextField
-                label="Vietnamese"
+                label="Tiếng Việt"
                 variant="outlined"
                 sx={{
                   width: "100%",
@@ -278,7 +278,7 @@ const Home = (props) => {
             </Grid>
             <Grid item xs={5}>
               <TextField
-                label="Bahnaric"
+                label="Tiếng Bana"
                 variant="outlined"
                 sx={{
                   width: "100%",
@@ -296,7 +296,7 @@ const Home = (props) => {
                 fullWidth
                 onClick={translationSpeak}
               >
-                Speak
+                Đọc
               </Button>
 
               {/* FILE */}
@@ -308,7 +308,7 @@ const Home = (props) => {
                 onClick={selectFile}
                 fullWidth
               >
-                Upload file
+                Tải file lên
               </Button>
               <input
                 type="file"
@@ -328,12 +328,12 @@ const Home = (props) => {
                   onClick={convertFile}
                   fullWidth
                 >
-                  Convert
+                  Chuyển đổi
                 </Button>
               )}
               {isLoad && (
                 <p className="mt-5" variant="outlined">
-                  Converting...
+                  Đang chuyển đổi...
                 </p>
               )}
               {/* FILE */}
@@ -346,7 +346,7 @@ const Home = (props) => {
                   fullWidth
                   onClick={translationSave}
                 >
-                  Save
+                  Lưu
                 </Button>
               )}
             </Grid>

@@ -15,9 +15,9 @@ const Contact = () => {
           <Avatar gap={10} size={150} shape='square' src={imageLong} />
         </div>
         <div className='contact--card--body'>
-          <div className='contact--card--body--title'>Bui Ngo Hoang Long</div>
-          <div>Ho Chi Minh City University of Technology</div>
-          <div>Faculty of Computer Science and Engineering</div>
+          <div className='contact--card--body--title'>Bùi Ngô Hoàng Long</div>
+          <div>Trường Đại học Bách Khoa TP.HCM</div>
+          <div>Khoa Khoa học và Kỹ thuật Máy tính</div>
           <div>long.buibk2000@hcmut.edu.vn</div>
         </div>
       </div>
@@ -26,9 +26,9 @@ const Contact = () => {
           <Avatar gap={10} size={150} shape='square' src={imagePhu} />
         </div>
         <div className='contact--card--body'>
-          <div className='contact--card--body--title'>Nguyen Huu Thien Phu</div>
-          <div>Ho Chi Minh City University of Technology</div>
-          <div>Faculty of Computer Science and Engineering</div>
+          <div className='contact--card--body--title'>Nguyễn Hữu Thiên Phú</div>
+          <div>Trường Đại học Bách Khoa TP.HCM</div>
+          <div>Khoa Khoa học và Kỹ thuật Máy tính</div>
           <div>phu.nguyenpfoem@hcmut.edu.vn</div>
         </div>
       </div>
@@ -38,10 +38,10 @@ const Contact = () => {
         </div>
         <div className='contact--card--body'>
           <div className='contact--card--body--title'>
-            MCS. Bang Ngoc Bao Tam
+            Mr. Băng Ngọc Bảo Tâm
           </div>
-          <div>Ho Chi Minh City University of Technology</div>
-          <div>Faculty of Computer Science and Engineering</div>
+          <div>Trường Đại học Bách Khoa TP.HCM</div>
+          <div>Khoa Khoa học và Kỹ thuật Máy tính</div>
           <div>bnbaotam@hcmut.edu.vn</div>
         </div>
       </div>
@@ -51,10 +51,10 @@ const Contact = () => {
         </div>
         <div className='contact--card--body'>
           <div className='contact--card--body--title'>
-            Assoc. Prof. Quan Thanh Tho
+            PGS.TS Quản Thành Thơ
           </div>
-          <div>Ho Chi Minh City University of Technology</div>
-          <div>Faculty of Computer Science and Engineering</div>
+          <div>Trường Đại học Bách Khoa TP.HCM</div>
+          <div>Khoa Khoa học và Kỹ thuật Máy tính</div>
           <div>qttho@hcmut.edu.vn</div>
         </div>
       </div>

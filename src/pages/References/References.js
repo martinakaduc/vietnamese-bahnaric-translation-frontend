@@ -6,7 +6,7 @@ const References = () => {
         <div className='references about-tab'>
             <div className='about-tab--section'>
                 <div className='about-tab--section--header'>
-                    Tham khảo
+                    Tài liệu tham khảo
                 </div>
                 <div className='about-tab--section--body'>
                     <div className='about-tab--section--body--paragraph'>

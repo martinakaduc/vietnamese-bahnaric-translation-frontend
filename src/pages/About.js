@@ -41,23 +41,23 @@ const About = () => {
         <Col span={24}>
           <Radio.Group onChange={handleSectionChange} value={currentSection}>
             <Space style={{ textAlign: 'center' }}>
-              <Radio.Button value='bahnaric' style={{ minWidth: '90px' }}>
-                <span>Bahnaric</span>
+              <Radio.Button value='/bahnar/nmt/bahnaric' style={{ minWidth: '90px' }}>
+                <span>Ngôn ngữ Bana</span>
               </Radio.Button>
-              <Radio.Button value='model' style={{ minWidth: '90px' }}>
-                <span>Model</span>
+              <Radio.Button value='/bahnar/nmt/model' style={{ minWidth: '90px' }}>
+                <span>Mô hình</span>
               </Radio.Button>
               <Radio.Button
-                value='data-augmentation'
+                value='/bahnar/nmt/data-augmentation'
                 style={{ minWidth: '90px' }}
               >
-                <span>Data augmentation</span>
+                <span>Làm giàu dữ liệu</span>
               </Radio.Button>
-              <Radio.Button value='preprocessing' style={{ minWidth: '90px' }}>
-                <span>Preprocessing</span>
+              <Radio.Button value='/bahnar/nmt/preprocessing' style={{ minWidth: '90px' }}>
+                <span>Tiền xử lý dữ liệu</span>
               </Radio.Button>
-              <Radio.Button value='references' style={{ minWidth: '90px' }}>
-                <span>References</span>
+              <Radio.Button value='/bahnar/nmt/references' style={{ minWidth: '90px' }}>
+                <span>Tài liệu thamn khảo</span>
               </Radio.Button>
             </Space>
           </Radio.Group>

@@ -23,29 +23,29 @@ const Navbar = (props) => {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ms-auto">
                             <li className="nav-item px-3">
-                                <span className="nav-link fs-5" onClick={() => props.setContent(<Home username={props.username}/>)}>Home</span>
+                                <span className="nav-link fs-5" onClick={() => props.setContent(<Home username={props.username}/>)}>Trang chủ</span>
                             </li>
                             <li className="nav-item px-3">
-                                <span className="nav-link fs-5" onClick={() => props.setContent(<About/>)}>About</span>
+                                <span className="nav-link fs-5" onClick={() => props.setContent(<About/>)}>Về hệ thống</span>
                             </li>
                             <li className="nav-item px-3">
-                                <span className="nav-link fs-5" onClick={() => props.setContent(<Contact/>)}>Contact</span>
+                                <span className="nav-link fs-5" onClick={() => props.setContent(<Contact/>)}>Liên hệ</span>
                             </li>
                             {!props.username &&
                                 <li className="nav-item px-3">
-                                    <span className="nav-link fs-5" onClick={() => props.setContent(<Login setContent={props.setContent} setUser={props.setUser}/>)}>Login</span>
+                                    <span className="nav-link fs-5" onClick={() => props.setContent(<Login setContent={props.setContent} setUser={props.setUser}/>)}>Đăng nhập</span>
                                 </li>
                             }
 
                             {props.username &&
                                 <li className="nav-item px-3">
-                                    <span className="nav-link fs-5" onClick={() => props.setContent(<History username = {props.username}/>)}>History</span>
+                                    <span className="nav-link fs-5" onClick={() => props.setContent(<History username = {props.username}/>)}>Lịch sử</span>
                                 </li>
                             }
 
                             {props.username &&
                                 <li className="nav-item px-3">
-                                    <span className="nav-link fs-5" onClick={handleLogout}>Logout</span>
+                                    <span className="nav-link fs-5" onClick={handleLogout}>Đăng xuất</span>
                                 </li> 
                             }
                         </ul>

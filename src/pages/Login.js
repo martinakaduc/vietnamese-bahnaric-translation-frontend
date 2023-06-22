@@ -12,11 +12,29 @@ const Login = (props) => {
             "username": username,
             "password": password
         }
-        axios.post("http://103.176.178.107:10014/:10013/auth", body).then(res => {
+        axios.post("https://www.ura.hcmut.edu.vn/bahnar/nmt/api/auth", body).then(res => {
             if (res.data == "No user found!") {
                 setUsername("");
                 setPassword("");
-                alert("No user found!");
+                alert("Người dùng không tồn tại!");
+            }
+            else {
+                props.setUser(username);
+                props.setContent(<Home username={username}/>);
+            }
+        });
+    }
+    
+    const signupSubmit = () => {
+        let body = {
+            "username": username,
+            "password": password
+        }
+        axios.post("https://www.ura.hcmut.edu.vn/bahnar/nmt/api/create", body).then(res => {
+            if (res.data == "Dupplicated user!") {
+                setUsername("");
+                setPassword("");
+                alert("Người dùng đã tồn tại!");
             }
             else {
                 props.setUser(username);
@@ -27,15 +45,16 @@ const Login = (props) => {
 
     return(
         <Box className="container mt-4 d-flex flex-column align-items-center">
-            <h3>Login form</h3>
+            <h3>Đăng nhập để có đầy đủ chức năng</h3>
             <FormControl
                 sx={{
                     width: '30%'
                 }}
             >
-                <TextField label="Username" variant="standard" type="text" onChange={(event) => setUsername(event.target.value)} value={username}/>
-                <TextField label="Password" variant="standard" type="password" onChange={(event) => setPassword(event.target.value)} value={password}/>
-                <Button variant="contained" className="mt-4" onClick={loginSubmit}>Login</Button>
+                <TextField label="Tên đăng nhập" variant="standard" type="text" onChange={(event) => setUsername(event.target.value)} value={username}/>
+                <TextField label="Mật khẩu" variant="standard" type="password" onChange={(event) => setPassword(event.target.value)} value={password}/>
+                <Button variant="contained" className="mt-4" onClick={loginSubmit}>Đăng nhập</Button>
+                <Button variant="contained" className="mt-4" onClick={signupSubmit}>Đăng ký</Button>
             </FormControl>
         </Box>
     );
