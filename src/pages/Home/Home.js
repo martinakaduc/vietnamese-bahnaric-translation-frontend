@@ -33,6 +33,7 @@ const Home = (props) => {
       let body = {
         text: input,
         model: modal,
+        region: region,
       };
       axios
         .post("https://www.ura.hcmut.edu.vn/NMT/api/translate/text", body)
@@ -67,6 +68,7 @@ const Home = (props) => {
     let body = {
       text: output,
       gender: gender,
+      region: region,
     };
     function sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
